@@ -1,29 +1,29 @@
-import { AlbumBuilder } from "./core/builders/album-builder";
-import { StandardAlbumFactory } from "./core/factories/standard-album-factory";
-import { AlbumNotifier } from "./core/observer/album-notifier";
-import { AlbumObserver } from "./core/observer/album-observer";
-import { AlbumService } from "./core/services/album-service";
+import { EventManager } from "./core/events/event-manager";
+import { EventFactory } from "./core/events/event.factory";
+import { InviteManager } from "./core/invites/invite-manager";
 
-const albumService = new AlbumService(new StandardAlbumFactory());
-const albumNotifier = new AlbumNotifier();
+async function main() {
+  const eventManager = new EventManager();
+  const inviteManager = new InviteManager();
 
-// Observers
-const observer1 = new AlbumObserver("Observer 1");
-const observer2 = new AlbumObserver("Observer 2");
+  // Criar evento
+  const wedding = EventFactory.create(
+    "Casamento do João e Maria",
+    new Date("2024-12-15"),
+    "Uma celebração especial!"
+  );
 
-albumNotifier.addObserver(observer1);
-albumNotifier.addObserver(observer2);
+  eventManager.addEvent(wedding);
 
-albumService.createAlbum("albumTitle");
-albumNotifier.notifyObservers(`New album created: ${"albumTitle"}`);
+  // Adicionar convidados ao evento
+  await inviteManager.addGuest(wedding, "Carlos");
+  await inviteManager.addGuest(wedding, "Ana");
 
-// Utilizando Builder
-const albumBuilder = new AlbumBuilder()
-  .setTitle("albumTitle")
-  .addPhoto("http://example.com/photo1.jpg")
-  .addPhoto("http://example.com/photo2.jpg")
-  .addVideo("http://example.com/video1.mp4");
+  // Exibir álbuns do evento
+  console.log("\nÁlbuns do evento:");
+  wedding.albums.forEach((album, guest) => {
+    console.log(`- Álbum de ${guest}: ${album.getPhotos().length} fotos.`);
+  });
+}
 
-const customAlbum = albumBuilder.build();
-
-customAlbum.showContent();
+main().catch((err) => console.error(err));

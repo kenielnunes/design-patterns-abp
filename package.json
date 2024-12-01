@@ -11,8 +11,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^5.6.3",
+    "@types/qrcode": "^1.5.5",
     "ts-node": "^10.9.1",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
   }
 }
