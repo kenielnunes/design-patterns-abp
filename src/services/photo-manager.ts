@@ -1,17 +1,10 @@
-// src/services/photoManager.ts
 import { Album } from "../models/album";
 import { Photo } from "../models/photo";
 
 export class PhotoManager {
-  static addPhotoToAlbum(
-    album: Album,
-    photoName: string,
-    photoUrl: string
-  ): void {
-    const photo = new Photo(photoName, photoUrl);
+  static addPhoto(album: Album, photoUrl: string, uploadedBy: string): void {
+    const photo = new Photo(photoUrl, uploadedBy);
     album.addPhoto(photo);
-    console.log(
-      `Foto "${photoName}" adicionada ao álbum de ${album.guestName}`
-    );
+    console.log(`Photo added to album "${album.guestName}" by ${uploadedBy}.`);
   }
 }

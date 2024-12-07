@@ -1,29 +1,15 @@
 import { EventManager } from "./core/events/event-manager";
-import { EventFactory } from "./core/events/event.factory";
 import { InviteManager } from "./core/invites/invite-manager";
+import { PhotoManager } from "./services/photo-manager";
 
-async function main() {
-  const eventManager = new EventManager();
-  const inviteManager = new InviteManager();
+(async () => {
+  const event = EventManager.createEvent("Festa de Aniversário");
 
-  // Criar evento
-  const wedding = EventFactory.create(
-    "Casamento do João e Maria",
-    new Date("2024-12-15"),
-    "Uma celebração especial!"
-  );
+  const guest = await InviteManager.addGuest(event, "João da Silva");
+  const album = event.getAlbums()[0];
 
-  eventManager.addEvent(wedding);
+  PhotoManager.addPhoto(album, "https://example.com/photo1.jpg", guest.name);
 
-  // Adicionar convidados ao evento
-  await inviteManager.addGuest(wedding, "Carlos");
-  await inviteManager.addGuest(wedding, "Ana");
-
-  // Exibir álbuns do evento
-  console.log("\nÁlbuns do evento:");
-  wedding.albums.forEach((album, guest) => {
-    console.log(`- Álbum de ${guest}: ${album.getPhotos().length} fotos.`);
-  });
-}
-
-main().catch((err) => console.error(err));
+  console.log(`QR Code para o convidado foi salvo no sistema de arquivos.`);
+  event.notifyObservers("O evento começou!");
+})();

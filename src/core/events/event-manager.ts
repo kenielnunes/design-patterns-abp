@@ -1,13 +1,9 @@
 import { Event } from "../../models/event";
 
 export class EventManager {
-  private events: Map<string, Event> = new Map();
-
-  addEvent(event: Event) {
-    this.events.set(event.id, event);
-  }
-
-  getEvent(id: string): Event | undefined {
-    return this.events.get(id);
+  static createEvent(eventName: string): Event {
+    const eventId = Math.random().toString(36).substr(2, 9);
+    console.log(`Event "${eventName}" created with ID: ${eventId}`);
+    return new Event(eventId, eventName);
   }
 }

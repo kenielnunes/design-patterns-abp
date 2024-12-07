@@ -1,20 +1,25 @@
-import { Album } from "../models/album";
+import { Observer } from "../observers/observer.interface";
+import { Album } from "./album";
 
 export class Event {
-  public albums: Map<string, Album> = new Map();
+  private albums: Album[] = [];
+  private observers: Observer[] = [];
 
-  constructor(
-    public id: string,
-    public name: string,
-    public date: Date,
-    public description: string
-  ) {}
+  constructor(public id: string, public name: string) {}
 
-  addAlbum(album: Album) {
-    this.albums.set(album.guestName, album);
+  addAlbum(album: Album): void {
+    this.albums.push(album);
   }
 
-  getAlbum(name: string): Album | undefined {
-    return this.albums.get(name);
+  getAlbums(): Album[] {
+    return this.albums;
+  }
+
+  addObserver(observer: Observer): void {
+    this.observers.push(observer);
+  }
+
+  notifyObservers(message: string): void {
+    this.observers.forEach((observer) => observer.update(message));
   }
 }

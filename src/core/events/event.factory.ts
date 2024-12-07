@@ -1,8 +1,8 @@
 import { Event } from "../../models/event";
 
 export class EventFactory {
-  static create(name: string, date: Date, description: string): Event {
+  static create(name: string): Event {
     const id = `event-${Date.now()}`;
-    return new Event(id, name, date, description);
+    return new Event(id, name);
   }
 }

@@ -1,7 +1,8 @@
 import { Album } from "../../models/album";
 
 export class AlbumFactory {
-  static create(guestName: string): Album {
-    return new Album(guestName);
+  static createAlbum(albumName: string): Album {
+    console.log(`Creating album: ${albumName}`);
+    return new Album(albumName);
   }
 }
